@@ -151,9 +151,9 @@ export default function AdventureSection() {
                     alt={activity.title}
                     className="w-full h-full object-cover transition-transform duration-400 hover:scale-110"
                   />
-                  <div className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 rounded-2xl font-semibold text-xs">
+                  {/* <div className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 rounded-2xl font-semibold text-xs">
                     ₹{activity.price.toLocaleString()}
-                  </div>
+                  </div> */}
                 </div>
                 
                 <div className="px-3 py-3 bg-white h-20 flex flex-col justify-center">

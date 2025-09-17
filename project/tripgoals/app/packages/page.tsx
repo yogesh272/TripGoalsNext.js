@@ -78,8 +78,8 @@ export default function AllPackagesPage() {
       
       <div className="relative z-10">
         {/* Page Header */}
-        <section className="bg-gradient-to-r from-black/60 via-black/40 to-black/60 text-white py-32 text-center relative z-10">
-          <div className="max-w-4xl mx-auto px-5">
+        <section className="bg-gradient-to-r from-black/70 via-black/40 to-black/60 text-white py-20 text-center relative z-10">
+          <div className="max-w-3xl mx-auto px-4">
             <h1 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">
               All Travel Packages
             </h1>
@@ -90,20 +90,20 @@ export default function AllPackagesPage() {
         </section>
 
         {/* Filter Section */}
-        <section className="bg-white/90 py-8 sticky top-16 z-40 backdrop-blur-sm">
-          <div className="max-w-6xl mx-auto px-5">
-            <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+        <section className="bg-white/50 py-10 sticky top-10 z-10 backdrop-blur-sm">
+          <div className="max-w-4xl mx-auto px-5">
+            <div className="flex flex-col md:flex-row justify-center items-center space-y-1 md:space-y-0 md:space-x-2">
               <input 
                 type="text" 
                 placeholder="Search packages..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
+                className="px-2 py-2 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
               />
               <select 
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
+                className="px-2 py-2 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
               >
                 <option value="">All Categories</option>
                 <option value="popular">Popular</option>
@@ -113,7 +113,7 @@ export default function AllPackagesPage() {
               <select 
                 value={priceFilter}
                 onChange={(e) => setPriceFilter(e.target.value)}
-                className="px-4 py-3 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
+                className="px-2 py-2 border-2 border-gray-200 rounded-xl text-sm bg-white transition-colors focus:outline-none focus:border-blue-500 min-w-[200px]"
               >
                 <option value="">All Prices</option>
                 <option value="low">Under ₹20,000</option>

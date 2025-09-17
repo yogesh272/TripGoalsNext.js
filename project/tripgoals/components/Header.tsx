@@ -51,24 +51,24 @@ export default function Header() {
     <>
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-black/90 backdrop-blur-md shadow-lg' 
+          ? 'bg-grey/90 backdrop-blur-md shadow-lg' 
           : 'bg-white/10 backdrop-blur-sm'
       }`}>
         <div className="max-w-7xl mx-auto px-5">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              <h2 className="text-3xl font-bold font-dancing-script bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold font-dancing-script bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
                 TripGoals
               </h2>
             </Link>
 
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex items-center space-x-8">
+            <ul className="hidden md:flex items-center space-x-9">
               <li>
                 <Link 
                   href="/" 
-                  className={`text-white font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
+                  className={`text-black font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
                     pathname === '/' ? 'text-yellow-400' : ''
                   }`}
                 >
@@ -81,7 +81,7 @@ export default function Header() {
               <li>
                 <Link 
                   href="/packages" 
-                  className={`text-white font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
+                  className={`text-black font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
                     pathname === '/packages' ? 'text-yellow-400' : ''
                   }`}
                 >
@@ -94,7 +94,7 @@ export default function Header() {
               <li>
                 <Link 
                   href="/about" 
-                  className={`text-white font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
+                  className={`text-black font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
                     pathname === '/about' ? 'text-yellow-400' : ''
                   }`}
                 >
@@ -107,7 +107,7 @@ export default function Header() {
               <li>
                 <Link 
                   href="/contact" 
-                  className={`text-white font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
+                  className={`text-black font-medium text-sm transition-all duration-300 hover:text-yellow-400 hover:-translate-y-0.5 relative ${
                     pathname === '/contact' ? 'text-yellow-400' : ''
                   }`}
                 >
@@ -120,13 +120,13 @@ export default function Header() {
             </ul>
 
             {/* Auth Section */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               {currentUser ? (
                 <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full">
                   <img 
                     src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" 
                     alt="Profile" 
-                    className="w-8 h-8 rounded-full object-cover"
+                    className="w-5 h- rounded-full object-cover"
                   />
                   <span className="text-white text-sm font-medium">{currentUser.name}</span>
                   <button 
@@ -152,6 +152,24 @@ export default function Header() {
                   </button>
                 </div>
               )}
+    
+    {currentUser && (
+    <button
+    onClick={logout}
+    className="relative overflow-hidden px-2 py-1 md:px-3 md:py-1
+               text-[7px] md:text-xs font-medium text-black
+               rounded-full shadow-md backdrop-blur-md
+               bg-gradient-to-r from-yellow-400/90 to-orange-400/90
+               border border-white/20
+               hover:scale-105 hover:from-orange-400 hover:to-yellow-400 
+               hover:shadow-lg transition-all duration-300"
+  >
+    <span className="relative z-10">Logout</span>
+    <span className="absolute inset-0 bg-gradient-to-r from-yellow-300/30 to-orange-500/30 blur-lg"></span>
+  </button>
+)}
+
+
 
               {/* Mobile menu button */}
               <button
@@ -227,10 +245,10 @@ export default function Header() {
 
       {/* Admin Panel Button */}
       {currentUser?.isAdmin && (
-        <div className="fixed top-20 right-5 z-40">
+        <div className="fixed top-20 right-5 z-20">
           <Link 
             href="/admin"
-            className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:from-indigo-600 hover:to-purple-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-purple-500/30 flex items-center space-x-2"
+            className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-2 py-1 rounded-full text-sm font-semibold hover:from-indigo-600 hover:to-purple-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-purple-500/30 flex items-center space-x-2"
           >
             <i className="fas fa-cog"></i>
             <span>Admin Panel</span>

@@ -9,6 +9,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
         'dancing-script': ['Dancing Script', 'cursive'],

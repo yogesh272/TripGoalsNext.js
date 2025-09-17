@@ -1,148 +1,178 @@
 'use client';
 
 import { useState } from 'react';
+import { 
+  Phone, 
+  Mail, 
+  MessageCircle, 
+  MapPin, 
+  Send, 
+  Map, 
+  Calendar,
+  Award,
+  Shield,
+  Clock,
+  DollarSign,
+  Users,
+  Leaf,
+  Plus,
+  Minus,
+  X
+} from 'lucide-react';
 
 export default function ContactPage() {
   const [showCallbackModal, setShowCallbackModal] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
+  
+  const [callbackData, setCallbackData] = useState({
+    name: '',
+    phone: '',
+    time: '',
+    reason: ''
+  });
 
-  const submitContactForm = (event: React.FormEvent) => {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCallbackChange = (e) => {
+    const { name, value } = e.target;
+    setCallbackData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const submitContactForm = (e) => {
+    e.preventDefault();
     
-    const firstName = formData.get('firstName') as string;
-    const lastName = formData.get('lastName') as string;
-    const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string;
-    const subject = formData.get('subject') as string;
-    const message = formData.get('message') as string;
-    
-    const whatsappMessage = `*Contact Form Submission*%0A%0A*Name:* ${firstName} ${lastName}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Subject:* ${subject}%0A*Message:* ${message}`;
+    const whatsappMessage = `*Contact Form Submission*%0A%0A*Name:* ${formData.firstName} ${formData.lastName}%0A*Email:* ${formData.email}%0A*Phone:* ${formData.phone}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
     
     window.open(`https://wa.me/917709823098?text=${whatsappMessage}`, '_blank');
     
-    form.reset();
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: ''
+    });
     alert('Your message has been sent via WhatsApp. We will get back to you shortly!');
   };
 
-  const submitCallbackRequest = (event: React.FormEvent) => {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+  const submitCallbackRequest = (e) => {
+    e.preventDefault();
     
-    const name = formData.get('name') as string;
-    const phone = formData.get('phone') as string;
-    const time = formData.get('time') as string;
-    const reason = formData.get('reason') as string;
-    
-    const whatsappMessage = `*Callback Request*%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Preferred Time:* ${time}%0A*Reason:* ${reason}`;
+    const whatsappMessage = `*Callback Request*%0A%0A*Name:* ${callbackData.name}%0A*Phone:* ${callbackData.phone}%0A*Preferred Time:* ${callbackData.time}%0A*Reason:* ${callbackData.reason}`;
     
     window.open(`https://wa.me/917709823098?text=${whatsappMessage}`, '_blank');
     
     setShowCallbackModal(false);
-    form.reset();
+    setCallbackData({
+      name: '',
+      phone: '',
+      time: '',
+      reason: ''
+    });
     alert('Callback request sent! We will contact you at your preferred time.');
   };
 
-  const toggleFaq = (element: HTMLElement) => {
-    const faqItem = element.closest('.faq-item');
-    const answer = faqItem?.querySelector('.faq-answer') as HTMLElement;
-    const icon = element.querySelector('i');
-    
-    if (faqItem && answer && icon) {
-      faqItem.classList.toggle('active');
-      
-      if (faqItem.classList.contains('active')) {
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        icon.classList.remove('fa-plus');
-        icon.classList.add('fa-minus');
-      } else {
-        answer.style.maxHeight = '0';
-        icon.classList.remove('fa-minus');
-        icon.classList.add('fa-plus');
-      }
-    }
+  const [expandedFaq, setExpandedFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setExpandedFaq(expandedFaq === index ? null : index);
   };
 
   return (
-    <div className="unified-background min-h-screen bg-cover bg-center bg-fixed animate-background-move relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-blue-800/20 to-gray-700/30 animate-gradient-shift"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-blue-800/5 to-gray-700/10"></div>
       
       <div className="relative z-10">
         {/* Page Header */}
-        <section className="bg-gradient-to-r from-black/60 via-black/40 to-black/60 text-white py-32 text-center relative z-10">
+        <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-32 text-center">
           <div className="max-w-4xl mx-auto px-5">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
               Contact Us
             </h1>
-            <p className="text-lg md:text-xl opacity-90 drop-shadow-md">
+            <p className="text-lg md:text-xl opacity-90">
               Get in touch with our travel experts
             </p>
           </div>
         </section>
 
         {/* Contact Content */}
-        <section className="py-16 bg-white/5 backdrop-blur-sm">
+        <section className="py-16 bg-white/50 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-5">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               {/* Contact Information */}
               <div className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-black">Get in Touch</h2>
-                <p className="text-lg leading-relaxed text-black">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Get in Touch</h2>
+                <p className="text-lg leading-relaxed text-gray-700">
                   Ready to embark on your next adventure? Our travel experts are here to help you plan the perfect trip to India. Contact us today!
                 </p>
                 
                 <div className="space-y-6">
                   {[
                     {
-                      icon: 'fas fa-phone',
+                      icon: Phone,
                       title: 'Call Us',
                       info: '+91 77098 23098',
                       subtitle: 'Mon - Sat: 9:00 AM - 8:00 PM'
                     },
                     {
-                      icon: 'fas fa-envelope',
+                      icon: Mail,
                       title: 'Email Us',
-                      info: 'info@tripgoals.com',
+                      info: 'tripgoals20@gmail.com',
                       subtitle: 'We\'ll respond within 24 hours'
                     },
                     {
-                      icon: 'fab fa-whatsapp',
+                      icon: MessageCircle,
                       title: 'WhatsApp',
                       info: '+91 77098 23098',
                       subtitle: 'Quick support & bookings'
                     },
                     {
-                      icon: 'fas fa-map-marker-alt',
+                      icon: MapPin,
                       title: 'Visit Us',
                       info: 'Chh.Sambhajinagar, Maharashtra, India',
                       subtitle: 'By appointment only'
                     }
-                  ].map((method, index) => (
-                    <div key={index} className="flex items-center space-x-4 bg-white/90 p-6 rounded-2xl shadow-lg">
-                      <div className="w-15 h-15 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl">
-                        <i className={method.icon}></i>
+                  ].map((method, index) => {
+                    const IconComponent = method.icon;
+                    return (
+                      <div key={index} className="flex items-center space-x-4 bg-white p-6 rounded-2xl shadow-lg">
+                        <div className="w-15 h-15 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white p-4">
+                          <IconComponent size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-800 mb-1">{method.title}</h3>
+                          <p className="text-blue-600 font-medium mb-1">{method.info}</p>
+                          <span className="text-gray-600 text-sm">{method.subtitle}</span>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-1">{method.title}</h3>
-                        <p className="text-blue-600 font-medium mb-1">{method.info}</p>
-                        <span className="text-gray-600 text-sm">{method.subtitle}</span>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
               
               {/* Contact Form */}
-              <div className="bg-white/90 p-8 rounded-2xl shadow-lg">
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6">Send us a Message</h2>
-                <form onSubmit={submitContactForm} className="space-y-4">
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block font-medium text-gray-700 mb-2">First Name</label>
                       <input 
                         type="text" 
                         name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                       />
@@ -152,6 +182,8 @@ export default function ContactPage() {
                       <input 
                         type="text" 
                         name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                       />
@@ -164,6 +196,8 @@ export default function ContactPage() {
                       <input 
                         type="email" 
                         name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                       />
@@ -173,6 +207,8 @@ export default function ContactPage() {
                       <input 
                         type="tel" 
                         name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         required
                         className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                       />
@@ -183,6 +219,8 @@ export default function ContactPage() {
                     <label className="block font-medium text-gray-700 mb-2">Subject</label>
                     <select 
                       name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
                       required
                       className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                     >
@@ -201,6 +239,8 @@ export default function ContactPage() {
                     <textarea 
                       name="message"
                       rows={5}
+                      value={formData.message}
+                      onChange={handleInputChange}
                       required
                       placeholder="Tell us about your travel plans or how we can help you..."
                       className="w-full px-3 py-3 border-2 border-gray-200 rounded-lg text-base transition-colors focus:outline-none focus:border-blue-500 bg-white resize-vertical min-h-[120px]"
@@ -208,73 +248,76 @@ export default function ContactPage() {
                   </div>
                   
                   <button 
-                    type="submit"
+                    onClick={submitContactForm}
                     className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white border-none px-8 py-4 rounded-full text-base font-semibold cursor-pointer transition-all duration-300 mt-4 inline-flex items-center justify-center space-x-2 hover:from-blue-600 hover:to-blue-500 hover:-translate-y-0.5"
                   >
-                    <i className="fas fa-paper-plane"></i>
+                    <Send size={20} />
                     <span>Send Message</span>
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Quick Actions */}
-        <section className="py-20 bg-white/90">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-5">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-black mb-12">Quick Actions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
-                  icon: 'fab fa-whatsapp',
+                  icon: MessageCircle,
                   title: 'WhatsApp Chat',
                   description: 'Get instant responses to your queries',
                   action: () => window.open('https://wa.me/917709823098?text=Hi! I would like to know more about your travel packages.', '_blank'),
                   bgColor: 'from-green-500 to-green-600'
                 },
                 {
-                  icon: 'fas fa-map',
+                  icon: Map,
                   title: 'View Packages',
                   description: 'Explore our amazing travel packages',
                   action: () => window.location.href = '/packages',
                   bgColor: 'from-blue-500 to-blue-600'
                 },
                 {
-                  icon: 'fas fa-phone',
+                  icon: Phone,
                   title: 'Call Now',
                   description: 'Speak directly with our travel experts',
                   action: () => window.location.href = 'tel:+917709823098',
                   bgColor: 'from-red-500 to-red-600'
                 },
                 {
-                  icon: 'fas fa-calendar-alt',
+                  icon: Calendar,
                   title: 'Request Callback',
                   description: 'We\'ll call you at your preferred time',
                   action: () => setShowCallbackModal(true),
                   bgColor: 'from-orange-500 to-orange-600'
                 }
-              ].map((action, index) => (
-                <div 
-                  key={index}
-                  onClick={action.action}
-                  className="bg-white p-8 rounded-2xl text-center shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <div className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-r ${action.bgColor} rounded-full flex items-center justify-center text-white text-2xl`}>
-                    <i className={action.icon}></i>
+              ].map((action, index) => {
+                const IconComponent = action.icon;
+                return (
+                  <div 
+                    key={index}
+                    onClick={action.action}
+                    className="bg-white p-8 rounded-2xl text-center shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl border border-gray-100"
+                  >
+                    <div className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-r ${action.bgColor} rounded-full flex items-center justify-center text-white`}>
+                      <IconComponent size={28} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">{action.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{action.description}</p>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4">{action.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{action.description}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section className="py-20 bg-white/5 backdrop-blur-sm">
+        <section className="py-20 bg-gray-50">
           <div className="max-w-4xl mx-auto px-5">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-black mb-12">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Frequently Asked Questions</h2>
             <div className="space-y-4">
               {[
                 {
@@ -294,15 +337,21 @@ export default function ContactPage() {
                   answer: 'Cancellation charges vary depending on the package and timing of cancellation. Generally, cancellations made 30 days in advance incur minimal charges. Please contact us for specific details.'
                 }
               ].map((faq, index) => (
-                <div key={index} className="faq-item bg-white/90 mb-4 rounded-xl overflow-hidden shadow-lg">
+                <div key={index} className="bg-white mb-4 rounded-xl overflow-hidden shadow-lg">
                   <div 
-                    className="faq-question p-6 cursor-pointer flex justify-between items-center transition-colors hover:bg-gray-50"
-                    onClick={(e) => toggleFaq(e.currentTarget)}
+                    className="p-6 cursor-pointer flex justify-between items-center transition-colors hover:bg-gray-50"
+                    onClick={() => toggleFaq(index)}
                   >
                     <h3 className="text-lg font-semibold text-gray-800 m-0">{faq.question}</h3>
-                    <i className="fas fa-plus text-blue-500 transition-transform duration-300"></i>
+                    {expandedFaq === index ? (
+                      <Minus className="text-blue-500 transition-transform duration-300" size={20} />
+                    ) : (
+                      <Plus className="text-blue-500 transition-transform duration-300" size={20} />
+                    )}
                   </div>
-                  <div className="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                  <div className={`overflow-hidden transition-all duration-300 ${
+                    expandedFaq === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
                     <p className="px-6 pb-6 text-gray-600 leading-relaxed m-0">{faq.answer}</p>
                   </div>
                 </div>
@@ -315,22 +364,24 @@ export default function ContactPage() {
       {/* Callback Request Modal */}
       {showCallbackModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white/95 backdrop-blur-md mx-auto p-8 rounded-3xl w-full max-w-md relative animate-modal-slide-in border border-white/30">
+          <div className="bg-white mx-auto p-8 rounded-3xl w-full max-w-md relative">
             <button 
               onClick={() => setShowCallbackModal(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-2xl font-bold cursor-pointer transition-colors"
+              className="absolute top-4 right-4 text-gray-600 hover:text-black transition-colors"
             >
-              &times;
+              <X size={24} />
             </button>
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Request Callback</h2>
-            <form onSubmit={submitCallbackRequest} className="space-y-4">
+            <div className="space-y-4">
               <div>
                 <label className="block mb-2 font-medium text-gray-700 text-sm">Name</label>
                 <input 
                   type="text" 
                   name="name"
+                  value={callbackData.name}
+                  onChange={handleCallbackChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-black/10 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white/80"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                 />
               </div>
               <div>
@@ -338,16 +389,20 @@ export default function ContactPage() {
                 <input 
                   type="tel" 
                   name="phone"
+                  value={callbackData.phone}
+                  onChange={handleCallbackChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-black/10 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white/80"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                 />
               </div>
               <div>
                 <label className="block mb-2 font-medium text-gray-700 text-sm">Preferred Time</label>
                 <select 
                   name="time"
+                  value={callbackData.time}
+                  onChange={handleCallbackChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-black/10 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white/80"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                 >
                   <option value="">Select preferred time</option>
                   <option value="morning">Morning (9 AM - 12 PM)</option>
@@ -359,8 +414,10 @@ export default function ContactPage() {
                 <label className="block mb-2 font-medium text-gray-700 text-sm">Reason for Call</label>
                 <select 
                   name="reason"
+                  value={callbackData.reason}
+                  onChange={handleCallbackChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-black/10 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white/80"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-colors focus:outline-none focus:border-blue-500 bg-white"
                 >
                   <option value="">Select reason</option>
                   <option value="general">General Inquiry</option>
@@ -370,21 +427,15 @@ export default function ContactPage() {
                 </select>
               </div>
               <button 
-                type="submit"
+                onClick={submitCallbackRequest}
                 className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white border-none px-4 py-4 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mt-4 hover:from-blue-600 hover:to-blue-500 hover:-translate-y-0.5"
               >
                 Request Callback
               </button>
-            </form>
+            </div>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .unified-background {
-          background-image: url('https://images.unsplash.com/photo-1580475805491-3b1b70c4ef86?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-        }
-      `}</style>
     </div>
   );
 }
